@@ -12,9 +12,12 @@ namespace ChainableOptions {
     option<K extends string, V>(
       key: K extends keyof O ? never : K,
       value: V,
-    ): Chainable<Omit<O, K> & Record<K, V>>;
+    ): Chainable<O & Record<K, V>>; // 이전의 타입을 계속해서 intersection으로 합쳐나가기
     get(): O;
   };
 
-  const result = config.option('foo', 123).option('name', 'type-challenges');
+  const result = config
+    .option('foo', 123)
+    .option('name', 'type-challenges')
+    .get();
 }
